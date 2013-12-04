@@ -1,0 +1,21 @@
+{
+	"name": "moaction/jsonrpc-common",
+	"description": "Jsonrpc common libraries",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Alexey Kalinin",
+			"email": "alexey.kalinin@moaction.ru"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "3.7.*"
+	},
+	"autoload": {
+		"psr-0": {"Moaction\\": "src/"}
+	}
+}
