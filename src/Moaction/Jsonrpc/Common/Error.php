@@ -50,7 +50,7 @@ class Error
 	 */
 	public function __construct($code = null, $message = null, $data = null)
 	{
-		$this->code = $code;
+		$this->code = (int)$code;
 		$this->message = $message;
 		$this->data = $data;
 	}
@@ -97,9 +97,9 @@ class Error
 	public static function fromArray(array $data)
 	{
 		return new self(
-			!empty($data['code'])    ? (int)$data['code'] : null,
-			!empty($data['message']) ? $data['message']   : null,
-			!empty($data['data'])    ? $data['data']      : null
+			!empty($data['code'])    ? $data['code']    : null,
+			!empty($data['message']) ? $data['message'] : null,
+			!empty($data['data'])    ? $data['data']    : null
 		);
 	}
 
