@@ -78,4 +78,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(array('params'), $request->getParams());
 		$this->assertEquals('method', $request->getMethod());
 	}
+
+	public function testFromArray()
+	{
+
+	}
 }

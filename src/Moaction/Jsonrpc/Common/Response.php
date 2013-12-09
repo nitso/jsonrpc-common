@@ -94,7 +94,7 @@ class Response
 	public static function fromArray($data)
 	{
 		if (empty($data['jsonrpc']) || $data['jsonrpc'] != Request::VERSION) {
-			throw new Exception('Request is not valid JsonRPC request: missing version');
+			throw new Exception('Response is not valid JsonRPC response: missing protocol version');
 		}
 
 		$response = new self();
@@ -104,12 +104,12 @@ class Response
 		}
 		else {
 			if (empty($data['result'])) {
-				throw new Exception('Request is not valid JsonRPC request: missing result');
+				throw new Exception('Response is not valid JsonRPC response: missing result');
 			}
 			$response->setResult($data['result']);
 		}
 		if (empty($data['id'])) {
-			throw new Exception('Request is not valid JsonRPC request: missing id');
+			throw new Exception('Response is not valid JsonRPC response: missing id');
 		}
 		$response->setId($data['id']);
 
