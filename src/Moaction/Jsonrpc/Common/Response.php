@@ -128,4 +128,32 @@ class Response
 	{
 		return Error::fromArray($data);
 	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$result = array(
+			'jsonrpc' => Request::VERSION,
+		);
+
+		if ($this->hasError()) {
+			$result['error'] = $this->getError()->toArray();
+
+			$errorCode = $this->getError()->getCode();
+			if (!$this->getId() && ($errorCode === Error::ERROR_PARSE_ERROR || $errorCode === Error::ERROR_INVALID_REQUEST)) {
+				$result['id'] = null;
+			}
+		}
+		else {
+			$result['result'] = $this->getResult();
+		}
+
+		if ($this->getId()) {
+			$result['id'] = $this->getId();
+		}
+
+		return $result;
+	}
 }

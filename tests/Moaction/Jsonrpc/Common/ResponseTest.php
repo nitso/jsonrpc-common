@@ -170,11 +170,64 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($error, $response->hasError());
 	}
 
+	/**
+	 * @return array
+	 */
 	public function providerTestHasError()
 	{
 		return array(
 			'Has error' => array(true),
 			'No error'  => array(false)
+		);
+	}
+
+	/**
+	 * @param Response $response
+	 * @param $expected
+	 * @dataProvider providerTestToArray
+	 */
+	public function testToArray(Response $response, $expected)
+	{
+			$this->assertEquals($expected, $response->toArray());
+	}
+
+	/**
+	 * @return array
+	 */
+	public function providerTestToArray()
+	{
+		$response = new Response();
+		$response->setId(1);
+		$response->setResult('result 1');
+
+		$errorResponse = new Response();
+		$errorResponse->setId(1);
+		$errorResponse->setError(new Error());
+
+		$nullIdError = new Response();
+		$nullIdError->setError(new Error(Error::ERROR_PARSE_ERROR));
+
+		return array(
+			array(
+				$response,
+				array('jsonrpc' => Request::VERSION, 'id' => 1, 'result' => 'result 1')
+			),
+			array(
+				$errorResponse,
+				array(
+					'jsonrpc' => Request::VERSION,
+					'id' => 1,
+					'error' => array('code' => Error::ERROR_SERVER_ERROR, 'message' => 'Server error')
+				)
+			),
+			array(
+				$nullIdError,
+				array(
+					'jsonrpc' => Request::VERSION,
+					'id' => null,
+					'error' => array('code' => Error::ERROR_PARSE_ERROR, 'message' => 'Parse error')
+				)
+			)
 		);
 	}
 }
