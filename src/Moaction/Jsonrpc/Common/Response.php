@@ -93,8 +93,12 @@ class Response
 	 */
 	public static function fromArray($data)
 	{
-		if (empty($data['jsonrpc']) || $data['jsonrpc'] != Request::VERSION) {
+		if (empty($data['jsonrpc'])) {
 			throw new Exception('Response is not valid JsonRPC response: missing protocol version');
+		}
+
+		if ($data['jsonrpc'] != Request::VERSION) {
+			throw new Exception('Response is not valid JsonRPC response: invalid protocol version');
 		}
 
 		$response = new self();

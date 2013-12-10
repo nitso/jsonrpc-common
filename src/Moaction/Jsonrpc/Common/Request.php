@@ -111,10 +111,14 @@ class Request
 	 * @throws Exception
 	 * @return self
 	 */
-	public static function fromArray($data)
+	public static function fromArray(array $data)
 	{
-		if (empty($data['jsonrpc']) || $data['jsonrpc'] != self::VERSION) {
+		if (empty($data['jsonrpc'])) {
 			throw new Exception('Request is not valid JsonRPC request: missing protocol version');
+		}
+
+		if ($data['jsonrpc'] != self::VERSION) {
+			throw new Exception('Request is not valid JsonRPC request: invalid protocol version');
 		}
 
 		if (empty($data['method'])) {
