@@ -10,12 +10,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider providerTestWrongVersion
 	 * @covers       \Moaction\Jsonrpc\Common\Response::fromArray
 	 */
-	public function testWrongVersion($version, $expected)
+	public function testWrongVersion($version, $exception)
 	{
-		if (!$expected) {
+		if ($exception) {
 			$this->setExpectedException(
 				'\Moaction\Jsonrpc\Common\Exception',
-				'Request is not valid JsonRPC request: missing version'
+				$exception
 			);
 		}
 
@@ -36,9 +36,9 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 	public function providerTestWrongVersion()
 	{
 		return array(
-			'Empty version' => array('', false),
-			'Bad version'   => array('1', false),
-			'Good version'  => array(Request::VERSION, true),
+			'Empty version' => array('', 'Response is not valid JsonRPC response: missing protocol version'),
+			'Bad version'   => array('1', 'Response is not valid JsonRPC response: invalid protocol version'),
+			'Good version'  => array(Request::VERSION, false),
 		);
 	}
 
@@ -59,7 +59,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 		if (!$expected) {
 			$this->setExpectedException(
 				'\Moaction\Jsonrpc\Common\Exception',
-				'Request is not valid JsonRPC request: missing id'
+				'Response is not valid JsonRPC response: missing id'
 			);
 		}
 
@@ -89,7 +89,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->setExpectedException(
 			'\Moaction\Jsonrpc\Common\Exception',
-			'Request is not valid JsonRPC request: missing result'
+			'Response is not valid JsonRPC response: missing result'
 		);
 		Response::fromArray($data);
 	}

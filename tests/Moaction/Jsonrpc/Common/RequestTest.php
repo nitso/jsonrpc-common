@@ -78,4 +78,63 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(array('params'), $request->getParams());
 		$this->assertEquals('method', $request->getMethod());
 	}
+
+	/**
+	 * @dataProvider providerTestFromArray
+	 * @covers \Moaction\Jsonrpc\Common\Request::fromArray()
+	 */
+	public function testFromArray($data, $exception, $expected = null)
+	{
+		if ($exception) {
+			$this->setExpectedException('\Moaction\Jsonrpc\Common\Exception', $exception);
+		}
+
+		$request = Request::fromArray($data);
+		$this->assertEquals($expected, $request);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function providerTestFromArray()
+	{
+		$minimal = new Request();
+		$minimal->setMethod('a');
+
+		$withId = clone  $minimal;
+		$withId->setId(3);
+
+		$withData = clone $withId;
+		$withData->setParams(array('x'));
+
+		return array(
+			'Missing version'  => array(
+				array('hello' => 1),
+				'Request is not valid JsonRPC request: missing protocol version'
+			),
+			'Invalid version'  => array(
+				array('jsonrpc' => 1),
+				'Request is not valid JsonRPC request: invalid protocol version'
+			),
+			'Missing method'   => array(
+				array('jsonrpc' => 2.0, 'No method'),
+				'Request is not valid JsonRPC request: missing method'
+			),
+			'Minimal data'     => array(
+				array('jsonrpc' => 2.0, 'method' => 'a'),
+				false,
+				$minimal
+			),
+			'Data with id'     => array(
+				array('jsonrpc' => 2.0, 'method' => 'a', 'id' => 3),
+				false,
+				$withId
+			),
+			'Data with params' => array(
+				array('jsonrpc' => 2.0, 'method' => 'a', 'id' => 3, 'params' => array('x')),
+				false,
+				$withData
+			),
+		);
+	}
 }

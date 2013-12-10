@@ -105,4 +105,37 @@ class Request
 
 		return $data;
 	}
+
+	/**
+	 * @param array $data
+	 * @throws Exception
+	 * @return self
+	 */
+	public static function fromArray(array $data)
+	{
+		if (empty($data['jsonrpc'])) {
+			throw new Exception('Request is not valid JsonRPC request: missing protocol version');
+		}
+
+		if ($data['jsonrpc'] != self::VERSION) {
+			throw new Exception('Request is not valid JsonRPC request: invalid protocol version');
+		}
+
+		if (empty($data['method'])) {
+			throw new Exception('Request is not valid JsonRPC request: missing method');
+		}
+
+		$request = new Request();
+		$request->setMethod($data['method']);
+
+		if (!empty($data['id'])) {
+			$request->setId($data['id']);
+		}
+
+		if (!empty($data['params'])) {
+			$request->setParams($data['params']);
+		}
+
+		return $request;
+	}
 }
