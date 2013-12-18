@@ -71,11 +71,11 @@ class Request
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function getParams()
 	{
-		return $this->params;
+		return $this->params ?: array();
 	}
 
 	/**
