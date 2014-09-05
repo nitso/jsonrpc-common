@@ -1,6 +1,8 @@
 Jsonrpc-common
 ==============
 
+![Travis CI status](https://travis-ci.org/nitso/jsonrpc-common.svg?branch=master)
+
 Common libraries for JSON-Rpc 2.0 protocol implementation
 
 http://www.jsonrpc.org/specification
