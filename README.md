@@ -54,7 +54,7 @@ $data = array(
     ),
 );
 // \Moaction\Jsonrpc\Common\Exception can be thrown when object is not valid jsonrpc response
-$response = new \Moaction\Jsonrpc\Common\Response::fromArray($data);
+$response = \Moaction\Jsonrpc\Common\Response::fromArray($data);
 ```
 
 ### Error response
@@ -68,7 +68,7 @@ $data = array(
         'data' => array('userId' => 4),
     ),
 );
-$response = new \Moaction\Jsonrpc\Common\Response::fromArray($data);
+$response = \Moaction\Jsonrpc\Common\Response::fromArray($data);
 // \Moaction\Jsonrpc\Common\Error object
 $error = $response->getError();
 ```
